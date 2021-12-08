@@ -11,47 +11,42 @@ const displayGenre = (list) =>{
 displayGenre(listTest);
 
 
-const dateListTest = [new Date(2021, 3, 28), new Date(2021, 7, 4)];
+const dateListTest = [new Date(2021, 3, 28, 18, 54), new Date(2021, 7, 4, 7, 5), new Date(2018, 5, 2, 3, 4)];
 
-const lastMonthDay = (date) => {
-    const tempDate = new Date(date).setDate(0);
-    const tempDateToStr = new Date(tempDate).toLocaleDateString();
-    return tempDateToStr;
+const lastMonthDay = (n) => {
+    const date = new Date(n).setDate(0);
+    const dateToStr = new Date(date).toLocaleDateString();
+    return dateToStr;
 };
 
-const dateZeroed = (date) => {
-    const tempDate = new Date(date);
-    tempDate.setHours(0);
-    tempDate.setMinutes(0);
-    return tempDate.toLocaleDateString() + ' ' +
-        tempDate.getHours().toString().padStart(2, '0') + ':' +
-        tempDate.getMinutes().toString().padStart(2, '0');
+const dateZeroed = (n) => {
+    const date = new Date(n);
+    date.setHours(0);
+    date.setMinutes(0);
+    return date;
 };
 
-const dateFormatted = (date) => {
-    const tempDate = new Date(date);
-    const tempDateFormatted = [(tempDate.getDay() +1).toString().padStart(2, '0'),
-                            (tempDate.getMonth() +1).toString().padStart(2, '0'),
-                            tempDate.getFullYear()].join('/')
-                            + ' ' +
-                            [tempDate.getHours().toString().padStart(2, '0'),
-                            tempDate.getMinutes().toString().padStart(2, '0')].join(':');
-    return tempDateFormatted;
+const dateFormatted = (n) => {
+    const date = new Date(n);
+    const dateWithFormat = date.toLocaleDateString() + ' ' +
+                            [date.getHours().toString().padStart(2, '0'),
+                            date.getMinutes().toString().padStart(2, '0')].join(':');
+    return dateWithFormat;
 };
 
-const weekNumber = (date) => {
-    const tempDate = new Date(date);
-    const firstJan = new Date(tempDate.getFullYear(), 0, 1);
-    const numberOfDays = Math.floor((tempDate - firstJan) / (24 * 60 * 60 * 1000));
-    const weekNum = Math.ceil((tempDate.getDay() + 1 + numberOfDays) / 7);
-    return weekNum;
+const weekNumber = (n) => {
+    const date = new Date(n);
+    const firstJan = new Date(date.getFullYear(), 0, 1);
+    const numberOfDays = Math.floor((date - firstJan) / (24 * 60 * 60 * 1000));
+    const numberOfTheWeek = Math.ceil((date.getDay() + 1 + numberOfDays) / 7);
+    return numberOfTheWeek;
 };
 
 const result = (dateList) => {
     return (dateList.map((date) => (
         {
             lastMonthDay: lastMonthDay(date),
-            dateZeroed: dateZeroed(date),
+            dateZeroed: dateFormatted(dateZeroed(date)),
             dateFormatted: dateFormatted(date),
             weekNumber: weekNumber(date)
         }
